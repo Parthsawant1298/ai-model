@@ -1,0 +1,11 @@
+pickle
+streamlit
+scikit-learn
+pandas
+numpy
+plotly
+scipy
+google-generativeai
+kaggle
+matplotlib
+seaborn
