@@ -3,17 +3,13 @@ import subprocess
 
 def write_requirements_file():
     requirements = """
-pickle
 streamlit
-scikit-learn
-pandas
-numpy
-plotly
-scipy
 google-generativeai
-kaggle
+pandas
 matplotlib
 seaborn
+scikit-learn
+kaggle
 """
     with open("requirements.txt", "w") as f:
         f.write(requirements.strip())
