@@ -1,11 +1,7 @@
-pickle
 streamlit
-scikit-learn
-pandas
-numpy
-plotly
-scipy
 google-generativeai
-kaggle
+pandas
 matplotlib
 seaborn
+scikit-learn
+kaggle
