@@ -1,3 +1,5 @@
+import pickle
+import streamlit as st
 import os
 import subprocess
 
@@ -25,37 +27,40 @@ def create_venv():
     return venv_folder
 
 def generate_loading_code(filename, feature_names):
-    input_statements = "\n".join([f"{name} = float(input('Enter value for {name}: '))" for name in feature_names])
-    prediction_statement = f"prediction = model.predict([[{', '.join(['str(' + name + ')' for name in feature_names])}]])"
+    # Generate dynamic input fields for Streamlit
+    input_statements = "\n    ".join([f"{name} = st.number_input('Enter value for {name}')" for name in feature_names])
+    
+    # Create the prediction statement using user inputs from Streamlit
+    prediction_statement = f"prediction = model.predict([[{', '.join([name for name in feature_names])}]])"
+    
     code = f"""
 import pickle
+import streamlit as st
 
+# Load the model from file
 def load_model():
     with open('{filename}', 'rb') as f:
         model = pickle.load(f)
     return model
 
+# Streamlit UI for predictions
 def predict():
+    st.title("Model Prediction App")
+    
     model = load_model()
     
+    # Create input fields for each feature
     {input_statements}
-    {prediction_statement}
     
-    print("Predicted output:", prediction)
-
+    # Predict the output
+    if st.button("Predict"):
+        {prediction_statement}
+        st.write("Predicted output:", prediction[0])
+    
 if __name__ == "__main__":
     predict()
 """
-    
-    with open("load_model.py", "w") as f:
-        f.write(code)
 
-def generate_graph_explanation(graph_description):
-    model = genai.GenerativeModel(model_name="gemini-1.5-flash")
-    response = model.generate_content([ 
-        f"Explain the following graph visualization in detail: {graph_description}. "
-        f"Include information about what insights can be drawn from the graph, "
-        f"how the model's performance or results are reflected in the graph, and "
-        f"what specific features or patterns the graph highlights."
-    ])
-    return response.text
+    # Write the code to a Python file
+    with open("load_model.py", "w") as f:
+        f.write(code.strip())  # Use .strip() to remove leading/trailing whitespace

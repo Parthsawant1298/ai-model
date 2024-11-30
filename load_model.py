@@ -1,30 +1,30 @@
-
 import pickle
+import streamlit as st
 
+# Load the model from file
 def load_model():
     with open('best_model.pkl', 'rb') as f:
         model = pickle.load(f)
     return model
 
+# Streamlit UI for predictions
 def predict():
+    st.title("Model Prediction App")
+    
     model = load_model()
     
-    Age = float(input('Enter value for Age: '))
-Sex = float(input('Enter value for Sex: '))
-Chest pain type = float(input('Enter value for Chest pain type: '))
-BP = float(input('Enter value for BP: '))
-Cholesterol = float(input('Enter value for Cholesterol: '))
-FBS over 120 = float(input('Enter value for FBS over 120: '))
-EKG results = float(input('Enter value for EKG results: '))
-Max HR = float(input('Enter value for Max HR: '))
-Exercise angina = float(input('Enter value for Exercise angina: '))
-ST depression = float(input('Enter value for ST depression: '))
-Slope of ST = float(input('Enter value for Slope of ST: '))
-Number of vessels fluro = float(input('Enter value for Number of vessels fluro: '))
-Thallium = float(input('Enter value for Thallium: '))
-    prediction = model.predict([[str(Age), str(Sex), str(Chest pain type), str(BP), str(Cholesterol), str(FBS over 120), str(EKG results), str(Max HR), str(Exercise angina), str(ST depression), str(Slope of ST), str(Number of vessels fluro), str(Thallium)]])
+    # Create input fields for each feature
+    Brand = st.number_input('Enter value for Brand')
+    Processor_Speed = st.number_input('Enter value for Processor_Speed')
+    RAM_Size = st.number_input('Enter value for RAM_Size')
+    Storage_Capacity = st.number_input('Enter value for Storage_Capacity')
+    Screen_Size = st.number_input('Enter value for Screen_Size')
+    Weight = st.number_input('Enter value for Weight')
     
-    print("Predicted output:", prediction)
-
+    # Predict the output
+    if st.button("Predict"):
+        prediction = model.predict([[Brand, Processor_Speed, RAM_Size, Storage_Capacity, Screen_Size, Weight]])
+        st.write("Predicted output:", prediction[0])
+    
 if __name__ == "__main__":
     predict()
