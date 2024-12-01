@@ -22,7 +22,7 @@ if not api_key:
     st.stop()
 
 # Configure PandasAI API key
-pandas_ai_key = st.secrets("PANDASAI_API_KEY")
+pandas_ai_key = st.secrets["PANDASAI_API_KEY"]
 if not pandas_ai_key:
     st.error("""PandasAI API key not found! Please:
     1. Go to https://www.pandabi.ai and sign up

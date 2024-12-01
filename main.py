@@ -24,7 +24,7 @@ import json
 #     raise ValueError("Google API key not found! Please add it to the .env file.")
 
 # Configure the Google Gemini API key through streamlit secrets
-api_key = st.secrets("GOOGLE_API_KEY")
+api_key = st.secrets["GOOGLE_API_KEY"]
 if not api_key:
     st.error("Google API key not found! Please add it to the .env file.")
     st.stop()
