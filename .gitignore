@@ -1,7 +1,0 @@
-.env*
-__pycache__
-cache
-myenv
-pandasai.log
-.kaggle
-.vscode
