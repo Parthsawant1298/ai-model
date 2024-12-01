@@ -5,8 +5,23 @@ import pandas as pd
 import json
 import io
 
-# Configure API key directly
-genai.configure(api_key="AIzaSyDoR10wPWSnCCLXHZWWrlrAg7XCXFzzpx8")
+# from dotenv import load_dotenv
+
+# # Load environment variables
+# load_dotenv()
+
+# # Configure the Google Gemini API key
+# api_key = os.getenv("GOOGLE_API_KEY")
+# if not api_key:
+#     raise ValueError("Google API key not found! Please add it to the .env file.")
+
+# Configure the Google Gemini API key through streamlit secrets
+api_key = st.secrets("GOOGLE_API_KEY")
+if not api_key:
+    st.error("Google API key not found! Please add it to the .env file.")
+    st.stop()
+
+genai.configure(api_key=api_key)
 
 # Function to generate JSON dataset based on user prompt
 def generate_json_dataset_from_prompt(prompt_text):

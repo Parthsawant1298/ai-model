@@ -5,9 +5,37 @@ import io
 from kaggle.api.kaggle_api_extended import KaggleApi
 import shutil
 import google.generativeai as genai
+import json
+
+# def load_kaggle_credentials():
+#     try:
+#         with open('kaggle.json', 'r') as f:
+#             kaggle_api = json.load(f)
+#             os.environ['KAGGLE_USERNAME'] = kaggle_api['username']
+#             os.environ['KAGGLE_KEY'] = kaggle_api['key']
+#     except FileNotFoundError:
+#         st.error("Kaggle API key file not found! Please add kaggle.json to the project directory.")
+#         st.stop()
+#     except KeyError:
+#         st.error("Invalid Kaggle API key file format! Please ensure it contains 'username' and 'key'.")
+#         st.stop()
+
+
+# Load Kaggle credentials from Streamlit secrets
+def load_kaggle_credentials():
+    try:
+        kaggle_username = st.secrets["kaggle"]["username"]
+        kaggle_key = st.secrets["kaggle"]["key"]
+        os.environ['KAGGLE_USERNAME'] = kaggle_username
+        os.environ['KAGGLE_KEY'] = kaggle_key
+    except KeyError:
+        st.error("Kaggle API key not found in Streamlit secrets! Please add it to the secrets.")
+        st.stop()
+
 
 def download_kaggle_dataset(query):
     dataset_folder = "datasets"
+    load_kaggle_credentials()
     kaggle_api = KaggleApi()
     kaggle_api.authenticate()
     

@@ -3,9 +3,22 @@ import streamlit as st
 import google.generativeai as genai
 import pandas as pd
 import io
+# from dotenv import load_dotenv
 
-# Configure API key directly (for demonstration purposes)
-genai.configure(api_key="AIzaSyDoR10wPWSnCCLXHZWWrlrAg7XCXFzzpx8")
+# load_dotenv()
+
+# api_key = os.getenv("GOOGLE_API_KEY")
+# if not api_key:
+#     st.error("Google API key not found! Please add it to the .env file.")
+#     st.stop()
+
+# Load Google API key from Streamlit secrets
+api_key = st.secrets["GOOGLE_API_KEY"]
+if not api_key:
+    st.error("Google API key not found! Please add it to the Streamlit secrets.")
+    st.stop()
+
+genai.configure(api_key=api_key)
 
 # Function to generate dataset based on a text prompt using Google Generative AI
 def generate_dataset_from_text(text):

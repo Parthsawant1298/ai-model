@@ -12,11 +12,54 @@ from utils import write_requirements_file, generate_loading_code
 from visualization_nlp import visualize_nlp_results
 import google.generativeai as genai
 from kaggle.api.kaggle_api_extended import KaggleApi
+from dotenv import load_dotenv
+import json
 
-# Set up the Generative AI API
-genai.configure(api_key="AIzaSyDoR10wPWSnCCLXHZWWrlrAg7XCXFzzpx8")  # Replace with your actual API key
-kaggle_api = KaggleApi()
-kaggle_api.authenticate()
+# # Load environment variables
+# load_dotenv()
+
+# # Configure the Google Gemini API key
+# api_key = os.getenv("GOOGLE_API_KEY")
+# if not api_key:
+#     raise ValueError("Google API key not found! Please add it to the .env file.")
+
+# Configure the Google Gemini API key through streamlit secrets
+api_key = st.secrets("GOOGLE_API_KEY")
+if not api_key:
+    st.error("Google API key not found! Please add it to the .env file.")
+    st.stop()
+
+genai.configure(api_key=api_key)
+
+# def load_kaggle_credentials():
+#     try:
+#         with open('kaggle.json', 'r') as f:
+#             kaggle_api = json.load(f)
+#             os.environ['KAGGLE_USERNAME'] = kaggle_api['username']
+#             os.environ['KAGGLE_KEY'] = kaggle_api['key']
+#     except FileNotFoundError:
+#         st.error("Kaggle API key file not found! Please add [kaggle.json](http://_vscodecontentref_/7) to the project directory.")
+#         st.stop()
+#     except KeyError:
+#         st.error("Invalid Kaggle API key file format! Please ensure it contains 'username' and 'key'.")
+#         st.stop()
+
+# # Load Kaggle credentials
+# load_kaggle_credentials()
+
+# Load Kaggle credentials from Streamlit secrets
+def load_kaggle_credentials():
+    try:
+        kaggle_username = st.secrets["kaggle"]["username"]
+        kaggle_key = st.secrets["kaggle"]["key"]
+        os.environ['KAGGLE_USERNAME'] = kaggle_username
+        os.environ['KAGGLE_KEY'] = kaggle_key
+    except KeyError:
+        st.error("Kaggle API key not found in Streamlit secrets! Please add it to the secrets.")
+        st.stop()
+
+# Load Kaggle credentials
+load_kaggle_credentials()
 
 # Create datasets directory if it doesn't exist
 datasets_dir = 'datasets'
@@ -169,3 +212,5 @@ if button_col1.button("Chatbot"):
 # Add a footer
 st.markdown("---")
 st.markdown("Created with ❤️ by AI-Generated ML System")
+
+# /workspaces/ai-model/app3.py

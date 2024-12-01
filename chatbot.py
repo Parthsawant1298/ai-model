@@ -6,8 +6,22 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 import os
 
-# Set up the API key for Google Generative AI
-api_key = "AIzaSyDoR10wPWSnCCLXHZWWrlrAg7XCXFzzpx8"  # Replace with your actual Google API key
+# from dotenv import load_dotenv
+
+# load_dotenv()
+
+# # Set up the API key for Google Generative AI
+# api_key = os.getenv("GOOGLE_API_KEY")
+# if not api_key:
+#     st.error("Google API key not found! Please add it to the .env file.")
+#     st.stop()
+
+# Load Google API key from Streamlit secrets
+api_key = st.secrets["GOOGLE_API_KEY"]
+if not api_key:
+    st.error("Google API key not found! Please add it to the Streamlit secrets.")
+    st.stop()
+
 genai.configure(api_key=api_key)
 
 # Initialize Streamlit page configuration

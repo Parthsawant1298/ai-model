@@ -1,5 +1,6 @@
 import streamlit as st
 import numpy as np
+import os
 import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.metrics import confusion_matrix, precision_recall_curve, roc_curve, accuracy_score
@@ -7,6 +8,25 @@ from collections import Counter
 import seaborn as sns
 import matplotlib.pyplot as plt
 import google.generativeai as genai
+# from dotenv import load_dotenv
+
+# # Load environment variables
+# load_dotenv()
+
+# # Configure the Google Gemini API key
+# api_key = os.getenv("GOOGLE_API_KEY")
+# if not api_key:
+#     raise ValueError("Google API key not found! Please add it to the .env file.")
+
+# genai.configure(api_key=api_key)
+
+# Load Google API key from Streamlit secrets
+api_key = st.secrets["GOOGLE_API_KEY"]
+if not api_key:
+    st.error("Google API key not found! Please add it to the Streamlit secrets.")
+    st.stop()
+
+genai.configure(api_key=api_key)
 
 def get_gemini_explanation(data, prompt):
     """

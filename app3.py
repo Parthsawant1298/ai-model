@@ -6,13 +6,23 @@ import os
 from pandasai import SmartDataframe
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# # Load environment variables
+# load_dotenv()
 
-# Configure the Google Gemini API key
-api_key = "AIzaSyDoR10wPWSnCCLXHZWWrlrAg7XCXFzzpx8"
+# # Configure the Google Gemini API key
+# api_key = os.getenv("GOOGLE_API_KEY")
+# if not api_key:
+#     st.error("Google API key not found! Please add it to the .env file.")
+#     st.stop()
+
+# Load Google API key from Streamlit secrets
+api_key = st.secrets["GOOGLE_API_KEY"]
+if not api_key:
+    st.error("Google API key not found! Please add it to the Streamlit secrets.")
+    st.stop()
+
 # Configure PandasAI API key
-pandas_ai_key = os.getenv("PANDASAI_API_KEY")
+pandas_ai_key = st.secrets("PANDASAI_API_KEY")
 if not pandas_ai_key:
     st.error("""PandasAI API key not found! Please:
     1. Go to https://www.pandabi.ai and sign up
