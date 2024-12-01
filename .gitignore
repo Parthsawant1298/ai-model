@@ -1,6 +1,7 @@
 .env*
-__pycache__/
-cache/
-myenv/
+__pycache__
+cache
+myenv
 pandasai.log
 .kaggle
+.vscode
